@@ -196,9 +196,11 @@ if (document.querySelector("#"+elem).id=="myShips") {
 						
 						this.style.backgroundColor = "red"
 					} else {this.style.backgroundColor="#68FF2C"}
-					
-				}
 
+					// if (this.obj.shooted == true) {
+					// 	this.style.pointerEvents = 'none';
+					// }					
+				}
 				trs[i].children[j].addEventListener("click", checkObj);
 				function checkObj() {
 					ceckInside(_4decks );
@@ -238,6 +240,20 @@ if (document.querySelector("#"+elem).id=="myShips") {
 
 								trs[i].children[j].style.backgroundColor="#68FF2C"
 							}
+						}
+					}
+				}
+				trs[i].children[j].addEventListener("click", checkShooting);
+				function checkShooting() {
+					for (var c = 0; c<10;c++) {
+						for (var k=0; k<10; k++) {
+							(function(c,k) { 
+								// console.log(c,k);
+								if (trs[c].children[k].obj.shooted==true) {
+									// console.log(trs[c].children[k])
+									trs[c].children[k].style.pointerEvents = 'none';
+								}
+							})(c,k)
 						}
 					}
 				}
