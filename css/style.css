@@ -1,0 +1,42 @@
+body {
+	margin: 0;
+	margin-top:-18px;
+}
+tr {
+	background-color: yellow;
+	border-collapse: collapse;
+}
+
+td {
+	width: 20px;
+	height: 20px;
+	background-color: yellow;
+	border: 2px solid blue;
+}
+
+#computerShips td:hover {
+	background-color: #FF94AE;
+}
+
+table {
+
+	background-color: yellow;
+	border-collapse: collapse;
+	float:left;
+	margin:0 50px;
+	display:block;
+}
+
+div {
+	width:690px;
+	height:40%;
+	margin: 0 auto;
+	text-align:center;
+	background-color:#A7D2E0;
+}
+
+p {
+	font: bold 110% serif;
+	color:blue;
+}
+

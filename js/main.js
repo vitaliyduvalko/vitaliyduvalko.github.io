@@ -1,0 +1,353 @@
+$( document ).ready(function() {
+
+	var makedArray = 0;
+	function makeTheShip(elem) {
+		let arr = [];
+		function makeArr() {
+			for (var i=-4;i<14;i++) {
+				arr[i]=[];
+				for (var j=-4;j<14;j++) {
+					
+					arr[i][j] = {
+						chip: false,
+						shooted: false,
+						id: i+"."+j,
+						color: "green"
+					};
+				}
+			}
+	// console.table(arr)
+};
+makeArr();
+
+var dir,x,y;
+
+function makeFirstDeck() {
+	dir = Math.round(Math.random(1,0));
+	// console.log(dir);
+	x = Math.round(Math.random()*9);
+	y = Math.round(Math.random()*9);
+	// console.log("x: "+x+"; y: "+y);
+	
+	if (arr[x][y].chip==true || arr[x][y+1].chip==true || arr[x][y-1].chip==true ||
+		arr[x-1][y].chip==true || arr[x-1][y+1].chip==true || arr[x-1][y-1].chip==true ||
+		arr[x+1][y].chip==true || arr[x+1][y+1].chip==true || arr[x+1][y-1].chip==true) {
+		makeFirstDeck();
+};
+
+
+};
+
+
+function makeShips(decks,ships) {
+	
+	makeFirstDeck();
+	if (dir == 0) { makeGorDecks(decks,ships);} else { makeVertDecks(decks,ships);}
+
+}
+
+function makeGorDecks(decks,ships) {
+
+	function checkGorDirect(decks,ships) {
+		for (var i=0;i<=decks;i++) {
+			if (y+i>10 || arr[x][y+i].chip==true || arr[x+1][y+i].chip==true || arr[x-1][y+i].chip==true) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	(function buildGorShip(decks) {
+
+		if (checkGorDirect(decks,ships)==true) {
+			for (var i=0;i<decks;i++) {
+				arr[x][y+i].chip=true;
+				arr[x][y+i].color="red";
+				if ("#"+elem=="#computerShips") { ships.arr_decks.push(arr[x][y+i]) }
+/*для меня*/	if ("#"+elem=="#myShips") { ships.arr_decks.push(arr[x][y+i]) }
+			}
+
+		if ("#"+elem=="#computerShips") {
+			ships.arr_empty = [];
+			ships.arr_empty.push(arr[x][y-1]);
+			ships.arr_empty.push(arr[x][y+ships.arr_decks.length]);
+			for (var c = -1; c<=ships.arr_decks.length; c++) {
+				ships.arr_empty.push(arr[x-1][y+c]);
+				ships.arr_empty.push(arr[x+1][y+c]);
+			}
+		}
+
+
+		if ("#"+elem=="#myShips") { /*для меня*/
+			ships.arr_empty = [];
+			ships.arr_empty.push(arr[x][y-1]);
+			ships.arr_empty.push(arr[x][y+ships.arr_decks.length]);
+			for (var c = -1; c<=ships.arr_decks.length; c++) {
+				ships.arr_empty.push(arr[x-1][y+c]);
+				ships.arr_empty.push(arr[x+1][y+c]);
+			}
+		} /*для меня*/
+
+	} else { makeShips(decks,ships) }
+console.log(ships);
+})(decks);
+
+};
+
+var _4decks = {arr_decks: []};
+var _3decks1 = {arr_decks: []};
+var _3decks2 = {arr_decks: []};
+var _2decks1 = {arr_decks: []};
+var _2decks2 = {arr_decks: []};
+var _2decks3 = {arr_decks: []};
+var _1decks1 = {arr_decks: []};
+var _1decks2 = {arr_decks: []};
+var _1decks3 = {arr_decks: []};
+var _1decks4 = {arr_decks: []};
+
+function makeVertDecks(decks,ships) {
+
+	function checkVertDirect(decks,ships) {
+		for (var i=0;i<=decks;i++) {
+			if (x+i>10 || arr[x+i][y].chip==true || arr[x+i][y+1].chip==true || arr[x+i][y-1].chip==true) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	(function buildVertShip(decks,ships) {
+		if (checkVertDirect(decks,ships)==true) {
+			for (var i=0;i<decks;i++) {
+				arr[x+i][y].chip=true;
+				
+				if ("#"+elem=="#computerShips") { ships.arr_decks.push(arr[x+i][y]) }
+/*для меня*/	if ("#"+elem=="#myShips") { ships.arr_decks.push(arr[x+i][y]) ; }
+			}
+		if ("#"+elem=="#computerShips") {
+			ships.arr_empty = [];
+			ships.arr_empty.push(arr[x-1][y]);
+			ships.arr_empty.push(arr[x+ships.arr_decks.length][y]);
+			for (var c = -1; c<=ships.arr_decks.length; c++) {
+				ships.arr_empty.push(arr[x+c][y-1]);
+				ships.arr_empty.push(arr[x+c][y+1]);
+			}
+		}
+
+		if ("#"+elem=="#myShips") { /*для меня*/
+			ships.arr_empty = [];
+			ships.arr_empty.push(arr[x-1][y]);
+			ships.arr_empty.push(arr[x+ships.arr_decks.length][y]);
+			for (var c = -1; c<=ships.arr_decks.length; c++) {
+				ships.arr_empty.push(arr[x+c][y-1]);
+				ships.arr_empty.push(arr[x+c][y+1]);
+			}
+		} /*для меня*/
+
+	} else { makeShips(decks,ships) }
+		console.log(ships);
+
+		
+		
+	})(decks,ships);
+	
+};
+
+makeShips(4,_4decks );
+makeShips(3,_3decks1);
+makeShips(3,_3decks2);
+makeShips(2,_2decks1);
+makeShips(2,_2decks2);
+makeShips(2,_2decks3);
+makeShips(1,_1decks1);
+makeShips(1,_1decks2);
+makeShips(1,_1decks3);
+makeShips(1,_1decks4);
+
+var array = [];
+
+(function getArray() {
+	for (var i = 0; i<10; i++) {
+		array[i] = arr[i].splice(0,10)
+	};
+	// console.table(array);
+})();
+
+
+(function toColorShips() {
+	var trs = document.querySelector("#"+elem).children[0].children;
+	// console.dir(trs);
+	for (var i=0;i<10;i++) {
+		for (var j=0;j<10;j++) {
+			trs[i].children[j].id = i+""+j;
+		}
+	}
+	if (document.querySelector("#"+elem).id=="myShips") {
+		for (var i=0;i<10;i++) {
+			for (var j=0;j<10;j++) {
+				if (array[i][j].chip==true) {
+					trs[i].children[j].style.backgroundColor="#51AFE1"
+				}
+			}
+		}
+	}
+})();
+
+(function bindObjectsСomputerShips() {
+	if ("#"+elem=="#computerShips") {
+
+		var trs = document.querySelector("#computerShips").children[0].children;
+		for (var i=0;i<10;i++) {
+
+			for (var j=0;j<10;j++) {
+
+				trs[i].children[j].obj = array[i][j];
+				trs[i].children[j].addEventListener("click", ev);
+				function ev () {
+					
+					this.obj.shooted = true;
+				}
+
+				trs[i].children[j].addEventListener("click", check);
+				function check() {
+					// console.log(this.obj)
+					if (this.obj.chip == true && this.obj.shooted == true) {
+						
+						this.style.backgroundColor = "red"
+					} else {this.style.backgroundColor="#68FF2C"}
+					
+				}
+
+				trs[i].children[j].addEventListener("click", checkObj);
+				function checkObj() {
+					ceckInside(_4decks );
+					ceckInside(_3decks1 );
+					ceckInside(_3decks2 );
+					ceckInside(_2decks1 );
+					ceckInside(_2decks2 );
+					ceckInside(_2decks3 );
+					ceckInside(_1decks1 );
+					ceckInside(_1decks2 );
+					ceckInside(_1decks3 );
+					ceckInside(_1decks4 );
+					
+					function ceckInside(shipObj) {
+						var check = 0;
+
+						for (var i = 0;i<shipObj.arr_decks.length;i++) {
+							if (shipObj.arr_decks[i].shooted==true && shipObj.arr_decks[i].chip==true) {
+								++check
+							}
+						}
+
+						if (check==shipObj.arr_decks.length) {
+
+							for (var i=0;i<shipObj.arr_empty.length;i++) {
+								shipObj.arr_empty[i].shooted=true;
+							}
+							
+						}
+					}
+				}
+				trs[i].children[j].addEventListener("click", colorObj);
+				function colorObj() {
+					for (var i = 0;i<10;i++) {
+						for (var j = 0;j<10;j++) {
+							if (trs[i].children[j].obj.shooted==true && trs[i].children[j].obj.chip==false) {
+
+								trs[i].children[j].style.backgroundColor="#68FF2C"
+							}
+						}
+					}
+
+				}
+
+			}
+		}
+	}
+
+	if ("#"+elem=="#myShips") {
+
+		var trs = document.querySelector("#myShips").children[0].children;
+		for (var i=0;i<10;i++) {
+
+			for (var j=0;j<10;j++) {
+
+				trs[i].children[j].obj = array[i][j];
+				trs[i].children[j].addEventListener("click", ev);
+				function ev () {
+					
+					this.obj.shooted = true;
+				}
+
+				trs[i].children[j].addEventListener("click", check);
+				function check() {
+					// console.log(this.obj)
+					if (this.obj.chip == true && this.obj.shooted == true) {
+						
+						this.style.backgroundColor = "red"
+					} else {this.style.backgroundColor="#68FF2C"}
+					
+				}
+
+				trs[i].children[j].addEventListener("click", checkObj);
+				function checkObj() {
+					ceckInside(_4decks );
+					ceckInside(_3decks1 );
+					ceckInside(_3decks2 );
+					ceckInside(_2decks1 );
+					ceckInside(_2decks2 );
+					ceckInside(_2decks3 );
+					ceckInside(_1decks1 );
+					ceckInside(_1decks2 );
+					ceckInside(_1decks3 );
+					ceckInside(_1decks4 );
+					
+					function ceckInside(shipObj) {
+						var check = 0;
+
+						for (var i = 0;i<shipObj.arr_decks.length;i++) {
+							if (shipObj.arr_decks[i].shooted==true && shipObj.arr_decks[i].chip==true) {
+								++check
+							}
+						}
+
+						if (check==shipObj.arr_decks.length) {
+
+							for (var i=0;i<shipObj.arr_empty.length;i++) {
+								shipObj.arr_empty[i].shooted=true;
+							}
+							
+						}
+					}
+				}
+				trs[i].children[j].addEventListener("click", colorObj);
+				function colorObj() {
+					for (var i = 0;i<10;i++) {
+						for (var j = 0;j<10;j++) {
+							if (trs[i].children[j].obj.shooted==true && trs[i].children[j].obj.chip==false) {
+
+								trs[i].children[j].style.backgroundColor="#68FF2C"
+							}
+						}
+					}
+
+				}
+
+			}
+		}
+	}
+
+
+
+
+})();
+	// console.table(array)
+	function bindObjectsMyShips() {
+		
+	}
+}
+// console.log(_4decks)
+makeTheShip("myShips");
+makeTheShip("computerShips");
+});
