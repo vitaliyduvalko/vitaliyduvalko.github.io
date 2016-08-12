@@ -63,11 +63,10 @@ function makeGorDecks(decks,ships) {
 			for (var i=0;i<decks;i++) {
 				arr[x][y+i].chip=true;
 				arr[x][y+i].color="red";
-				if ("#"+elem=="#computerShips") { ships.arr_decks.push(arr[x][y+i]) }
-/*для меня*/	if ("#"+elem=="#myShips") { ships.arr_decks.push(arr[x][y+i]) }
+				ships.arr_decks.push(arr[x][y+i])
 			}
 
-		if ("#"+elem=="#computerShips") {
+
 			ships.arr_empty = [];
 			ships.arr_empty.push(arr[x][y-1]);
 			ships.arr_empty.push(arr[x][y+ships.arr_decks.length]);
@@ -75,22 +74,11 @@ function makeGorDecks(decks,ships) {
 				ships.arr_empty.push(arr[x-1][y+c]);
 				ships.arr_empty.push(arr[x+1][y+c]);
 			}
-		}
 
 
-		if ("#"+elem=="#myShips") { /*для меня*/
-			ships.arr_empty = [];
-			ships.arr_empty.push(arr[x][y-1]);
-			ships.arr_empty.push(arr[x][y+ships.arr_decks.length]);
-			for (var c = -1; c<=ships.arr_decks.length; c++) {
-				ships.arr_empty.push(arr[x-1][y+c]);
-				ships.arr_empty.push(arr[x+1][y+c]);
-			}
-		} /*для меня*/
-
-	} else { makeShips(decks,ships) }
-console.log(ships);
-})(decks);
+		} else { makeShips(decks,ships) }
+		console.log(ships);
+	})(decks);
 
 };
 
@@ -121,10 +109,9 @@ function makeVertDecks(decks,ships) {
 			for (var i=0;i<decks;i++) {
 				arr[x+i][y].chip=true;
 				
-				if ("#"+elem=="#computerShips") { ships.arr_decks.push(arr[x+i][y]) }
-/*для меня*/	if ("#"+elem=="#myShips") { ships.arr_decks.push(arr[x+i][y]) ; }
+				ships.arr_decks.push(arr[x+i][y]);
 			}
-		if ("#"+elem=="#computerShips") {
+
 			ships.arr_empty = [];
 			ships.arr_empty.push(arr[x-1][y]);
 			ships.arr_empty.push(arr[x+ships.arr_decks.length][y]);
@@ -132,19 +119,8 @@ function makeVertDecks(decks,ships) {
 				ships.arr_empty.push(arr[x+c][y-1]);
 				ships.arr_empty.push(arr[x+c][y+1]);
 			}
-		}
 
-		if ("#"+elem=="#myShips") { /*для меня*/
-			ships.arr_empty = [];
-			ships.arr_empty.push(arr[x-1][y]);
-			ships.arr_empty.push(arr[x+ships.arr_decks.length][y]);
-			for (var c = -1; c<=ships.arr_decks.length; c++) {
-				ships.arr_empty.push(arr[x+c][y-1]);
-				ships.arr_empty.push(arr[x+c][y+1]);
-			}
-		} /*для меня*/
-
-	} else { makeShips(decks,ships) }
+		} else { makeShips(decks,ships) }
 		console.log(ships);
 
 		
@@ -194,9 +170,8 @@ var array = [];
 })();
 
 (function bindObjectsСomputerShips() {
-	if ("#"+elem=="#computerShips") {
-
-		var trs = document.querySelector("#computerShips").children[0].children;
+	
+		var trs = document.querySelector("#"+elem).children[0].children;
 		for (var i=0;i<10;i++) {
 
 			for (var j=0;j<10;j++) {
@@ -264,81 +239,7 @@ var array = [];
 
 			}
 		}
-	}
-
-	if ("#"+elem=="#myShips") {
-
-		var trs = document.querySelector("#myShips").children[0].children;
-		for (var i=0;i<10;i++) {
-
-			for (var j=0;j<10;j++) {
-
-				trs[i].children[j].obj = array[i][j];
-				trs[i].children[j].addEventListener("click", ev);
-				function ev () {
-					
-					this.obj.shooted = true;
-				}
-
-				trs[i].children[j].addEventListener("click", check);
-				function check() {
-					// console.log(this.obj)
-					if (this.obj.chip == true && this.obj.shooted == true) {
-						
-						this.style.backgroundColor = "red"
-					} else {this.style.backgroundColor="#68FF2C"}
-					
-				}
-
-				trs[i].children[j].addEventListener("click", checkObj);
-				function checkObj() {
-					ceckInside(_4decks );
-					ceckInside(_3decks1 );
-					ceckInside(_3decks2 );
-					ceckInside(_2decks1 );
-					ceckInside(_2decks2 );
-					ceckInside(_2decks3 );
-					ceckInside(_1decks1 );
-					ceckInside(_1decks2 );
-					ceckInside(_1decks3 );
-					ceckInside(_1decks4 );
-					
-					function ceckInside(shipObj) {
-						var check = 0;
-
-						for (var i = 0;i<shipObj.arr_decks.length;i++) {
-							if (shipObj.arr_decks[i].shooted==true && shipObj.arr_decks[i].chip==true) {
-								++check
-							}
-						}
-
-						if (check==shipObj.arr_decks.length) {
-
-							for (var i=0;i<shipObj.arr_empty.length;i++) {
-								shipObj.arr_empty[i].shooted=true;
-							}
-							
-						}
-					}
-				}
-				trs[i].children[j].addEventListener("click", colorObj);
-				function colorObj() {
-					for (var i = 0;i<10;i++) {
-						for (var j = 0;j<10;j++) {
-							if (trs[i].children[j].obj.shooted==true && trs[i].children[j].obj.chip==false) {
-
-								trs[i].children[j].style.backgroundColor="#68FF2C"
-							}
-						}
-					}
-
-				}
-
-			}
-		}
-	}
-
-
+	
 
 
 })();
