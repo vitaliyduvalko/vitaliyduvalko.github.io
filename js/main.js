@@ -239,16 +239,22 @@ var array = [];
 		}
 
 		if (elem=="computerShips") {
-			
-			for (var i=0;i<10;i++) {
+			var trsForShoot = document.querySelector("#myShips").children[0].children;
+			console.log(trsForShoot);
+			for (var k=0;k<10;k++) {
 
 				for (var j=0;j<10;j++) {
+					var shoot;
+					(function(k,j) {
+						shoot = function () {
+							trsForShoot[k].children[j].obj.shooted = true;
+							// checkSecondary20();
+							trsForShoot[k].children[j].click();
+							// colorObj();
+						}
+					})(k,j)
+					trsComputer[k].children[j].addEventListener("click", shoot);
 
-					trsComputer[i].children[j].addEventListener("click", shoot);
-					function shoot () {
-						var trsForShoot = document.querySelector("#computerShips").children[0].children
-						this.obj.shooted = true;
-					}
 				}
 			}
 		}
