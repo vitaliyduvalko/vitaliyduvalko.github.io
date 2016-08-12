@@ -170,21 +170,21 @@ var array = [];
 })();
 
 (function bindObjectsСomputerShips() {
-	
-		var trs = document.querySelector("#"+elem).children[0].children;
-		for (var i=0;i<10;i++) {
+	var trsComputer = document.querySelector("#computerShips").children[0].children;
+	var trs = document.querySelector("#"+elem).children[0].children;
+	for (var i=0;i<10;i++) {
 
-			for (var j=0;j<10;j++) {
+		for (var j=0;j<10;j++) {
 
-				trs[i].children[j].obj = array[i][j];
-				trs[i].children[j].addEventListener("click", ev);
-				function ev () {
-					
-					this.obj.shooted = true;
-				}
+			trs[i].children[j].obj = array[i][j];
+			trs[i].children[j].addEventListener("click", ev);
+			function ev () {
 
-				trs[i].children[j].addEventListener("click", check);
-				function check() {
+				this.obj.shooted = true;
+			}
+
+			trs[i].children[j].addEventListener("click", check);
+			function check() {
 					// console.log(this.obj)
 					if (this.obj.chip == true && this.obj.shooted == true) {
 						
@@ -234,15 +234,27 @@ var array = [];
 							}
 						}
 					}
-
 				}
-
 			}
 		}
-	
+
+		if (elem=="computerShips") {
+			
+			for (var i=0;i<10;i++) {
+
+				for (var j=0;j<10;j++) {
+
+					trsComputer[i].children[j].addEventListener("click", shoot);
+					function shoot () {
+						var trsForShoot = document.querySelector("#computerShips").children[0].children
+						this.obj.shooted = true;
+					}
+				}
+			}
+		}
 
 
-})();
+	})();
 	// console.table(array)
 	function bindObjectsMyShips() {
 		
