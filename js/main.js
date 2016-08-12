@@ -156,17 +156,23 @@ var array = [];
 	for (var i=0;i<10;i++) {
 		for (var j=0;j<10;j++) {
 			trs[i].children[j].id = i+""+j;
+			if (elem=="myShips") {
+			// 	console.log("Hollo")
+			// 	trs[i].children[j].disabled = true;
+			// 	trs[i].disabled = true;
+			trs[i].style.pointerEvents = 'none';
 		}
 	}
-	if (document.querySelector("#"+elem).id=="myShips") {
-		for (var i=0;i<10;i++) {
-			for (var j=0;j<10;j++) {
-				if (array[i][j].chip==true) {
-					trs[i].children[j].style.backgroundColor="#51AFE1"
-				}
+}
+if (document.querySelector("#"+elem).id=="myShips") {
+	for (var i=0;i<10;i++) {
+		for (var j=0;j<10;j++) {
+			if (array[i][j].chip==true) {
+				trs[i].children[j].style.backgroundColor="#51AFE1"
 			}
 		}
 	}
+}
 })();
 
 (function bindObjectsСomputerShips() {
@@ -245,14 +251,25 @@ var array = [];
 
 				for (var j=0;j<10;j++) {
 					var shoot;
-					(function(k,j) {
+					// (function(k,j) {
 						shoot = function () {
-							trsForShoot[k].children[j].obj.shooted = true;
-							// checkSecondary20();
-							trsForShoot[k].children[j].click();
-							// colorObj();
+							var k = Math.round(Math.random(1,0)*9);
+							var j = Math.round(Math.random(1,0)*9);
+							if (trsForShoot[k].children[j].obj.shooted == true) {
+								shoot();
+							} else if (trsForShoot[k].children[j].obj.shooted == false && trsForShoot[k].children[j].obj.chip == true) {
+								// console.log(k,j);
+								trsForShoot[k].children[j].obj.shooted = true;
+								trsForShoot[k].children[j].click();
+								shoot();
+							} else {
+								trsForShoot[k].children[j].obj.shooted = true;
+								trsForShoot[k].children[j].click();
+							}
+							
+							
 						}
-					})(k,j)
+					// })(k,j)
 					trsComputer[k].children[j].addEventListener("click", shoot);
 
 				}
