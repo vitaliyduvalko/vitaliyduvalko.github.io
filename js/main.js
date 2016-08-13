@@ -1,4 +1,4 @@
-$( document ).ready(function() {
+window.onload = function() {
 
 	var makedArray = 0;
 	function makeTheShip(elem) {
@@ -174,8 +174,11 @@ if (document.querySelector("#"+elem).id=="myShips") {
 	}
 }
 })();
-
+var lastShoots = [];
+var lastComputerShoots = [];
 (function bindObjectsСomputerShips() {
+	
+	var trsMy = document.querySelector("#myShips").children[0].children;
 	var trsComputer = document.querySelector("#computerShips").children[0].children;
 	var trs = document.querySelector("#"+elem).children[0].children;
 	for (var i=0;i<10;i++) {
@@ -191,63 +194,67 @@ if (document.querySelector("#"+elem).id=="myShips") {
 
 			trs[i].children[j].addEventListener("click", check);
 			function check() {
-					// console.log(this.obj)
-					if (this.obj.chip == true && this.obj.shooted == true) {
-						
-						this.style.backgroundColor = "red"
-					} else {this.style.backgroundColor="#68FF2C"}
+				if (elem=="computerShips") {
 
-					// if (this.obj.shooted == true) {
-					// 	this.style.pointerEvents = 'none';
-					// }					
-				}
-				trs[i].children[j].addEventListener("click", checkObj);
-				function checkObj() {
-					ceckInside(_4decks );
-					ceckInside(_3decks1 );
-					ceckInside(_3decks2 );
-					ceckInside(_2decks1 );
-					ceckInside(_2decks2 );
-					ceckInside(_2decks3 );
-					ceckInside(_1decks1 );
-					ceckInside(_1decks2 );
-					ceckInside(_1decks3 );
-					ceckInside(_1decks4 );
+					lastShoots.push(this.obj.chip);
+					// console.log(lastShoots[lastShoots.length-1]);
+					// console.log(lastShoots);
 					
-					function ceckInside(shipObj) {
-						var check = 0;
+				}
+				if (this.obj.chip == true && this.obj.shooted == true) {
 
-						for (var i = 0;i<shipObj.arr_decks.length;i++) {
-							if (shipObj.arr_decks[i].shooted==true && shipObj.arr_decks[i].chip==true) {
-								++check
-							}
+					this.style.backgroundColor = "red";
+
+				} else {this.style.backgroundColor="#68FF2C"}
+
+			}
+			trs[i].children[j].addEventListener("click", checkObj);
+			function checkObj() {
+				ceckInside(_4decks );
+				ceckInside(_3decks1 );
+				ceckInside(_3decks2 );
+				ceckInside(_2decks1 );
+				ceckInside(_2decks2 );
+				ceckInside(_2decks3 );
+				ceckInside(_1decks1 );
+				ceckInside(_1decks2 );
+				ceckInside(_1decks3 );
+				ceckInside(_1decks4 );
+
+				function ceckInside(shipObj) {
+					var check = 0;
+
+					for (var i = 0;i<shipObj.arr_decks.length;i++) {
+						if (shipObj.arr_decks[i].shooted==true && shipObj.arr_decks[i].chip==true) {
+							++check
+						}
+					}
+
+					if (check==shipObj.arr_decks.length) {
+
+						for (var i=0;i<shipObj.arr_empty.length;i++) {
+							shipObj.arr_empty[i].shooted=true;
 						}
 
-						if (check==shipObj.arr_decks.length) {
+					}
+				}
+			}
+			trs[i].children[j].addEventListener("click", colorObj);
+			function colorObj() {
+				for (var i = 0;i<10;i++) {
+					for (var j = 0;j<10;j++) {
+						if (trs[i].children[j].obj.shooted==true && trs[i].children[j].obj.chip==false) {
 
-							for (var i=0;i<shipObj.arr_empty.length;i++) {
-								shipObj.arr_empty[i].shooted=true;
-							}
-							
+							trs[i].children[j].style.backgroundColor="#68FF2C";
 						}
 					}
 				}
-				trs[i].children[j].addEventListener("click", colorObj);
-				function colorObj() {
-					for (var i = 0;i<10;i++) {
-						for (var j = 0;j<10;j++) {
-							if (trs[i].children[j].obj.shooted==true && trs[i].children[j].obj.chip==false) {
-
-								trs[i].children[j].style.backgroundColor="#68FF2C"
-							}
-						}
-					}
-				}
-				trs[i].children[j].addEventListener("click", checkShooting);
-				function checkShooting() {
-					for (var c = 0; c<10;c++) {
-						for (var k=0; k<10; k++) {
-							(function(c,k) { 
+			}
+			trs[i].children[j].addEventListener("click", checkShooting);
+			function checkShooting() {
+				for (var c = 0; c<10;c++) {
+					for (var k=0; k<10; k++) {
+						(function(c,k) { 
 								// console.log(c,k);
 								if (trs[c].children[k].obj.shooted==true) {
 									// console.log(trs[c].children[k])
@@ -267,8 +274,10 @@ if (document.querySelector("#"+elem).id=="myShips") {
 
 				for (var j=0;j<10;j++) {
 					var shoot;
-					// (function(k,j) {
-						shoot = function () {
+					
+					shoot = function () {
+						if (lastShoots[lastShoots.length-1]==false) {
+
 							var k = Math.round(Math.random(1,0)*9);
 							var j = Math.round(Math.random(1,0)*9);
 							if (trsForShoot[k].children[j].obj.shooted == true) {
@@ -282,24 +291,20 @@ if (document.querySelector("#"+elem).id=="myShips") {
 								trsForShoot[k].children[j].obj.shooted = true;
 								trsForShoot[k].children[j].click();
 							}
-							
-							
 						}
-					// })(k,j)
+					}
+					
 					trsComputer[k].children[j].addEventListener("click", shoot);
 
 				}
 			}
 		}
 
-
 	})();
-	// console.table(array)
-	function bindObjectsMyShips() {
-		
-	}
+	
+
 }
-// console.log(_4decks)
+
 makeTheShip("myShips");
 makeTheShip("computerShips");
-});
+};
