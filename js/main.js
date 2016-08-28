@@ -1,3 +1,4 @@
+"use strict";
 window.onload = function() {
 
 	var makedArray = 0;
@@ -144,7 +145,6 @@ var array = [];
 	for (var i = 0; i<10; i++) {
 		array[i] = arr[i].splice(0,10)
 	};
-	// console.table(array);
 })();
 
 
@@ -179,8 +179,6 @@ function checkAllTheDecksOfComputer() {
 	var trsForShoot = document.querySelector("#computerShips").children[0].children;
 	for (var i = 0; i<10; i++) {
 		for (var u = 0; u<10; u++) {
-
-
 			if (trsForShoot[i].children[u].obj.shooted == true && trsForShoot[i].children[u].obj.chip == true) {
 				++ammountOfDecksOfComputer;
 				if (ammountOfDecksOfComputer==20) {
@@ -220,14 +218,11 @@ function checkAllTheDecksOfComputer() {
 				}
 
 				if (this.obj.chip == true && this.obj.shooted == true) {
-
 					this.style.backgroundColor = "red";
-
 				} else {this.style.backgroundColor="#68FF2C"}
 
 			}
 			trs[i].children[j].addEventListener("click", checkObj);
-
 
 
 
@@ -256,7 +251,6 @@ function checkAllTheDecksOfComputer() {
 						if (shipObj.arr_decks[i].shooted==true && shipObj.arr_decks[i].chip==true) {
 							++check;
 							checkAllTheDecksOfComputer;
-
 						}
 					}
 
@@ -301,101 +295,104 @@ function checkAllTheDecksOfComputer() {
 
 		if (elem=="computerShips") {
 			var trsForShoot = document.querySelector("#myShips").children[0].children;
-			var lastFunk;
-
-
-			function rightSoot(u,v) {
-				v++;
-				lastFunk = "right";
-				if (trsForShoot[u].children[v]) {
-
-					if (trsForShoot[u].children[v].obj.shooted == true) {
-						leftShoot(firstCripperCoords.k,firstCripperCoords.f);
-					} else if (trsForShoot[u].children[v].obj.shooted == false && trsForShoot[u].children[v].obj.chip == true) {
-						ammountOfDecks++;
-						trsForShoot[u].children[v].click();
-						rightSoot(u,v);
-					} else if (trsForShoot[u].children[v].obj.shooted == false && trsForShoot[u].children[v].obj.chip == false) {
-						trsForShoot[u].children[v].click();
-					}
-
-				} else {
-					leftShoot(firstCripperCoords.k,firstCripperCoords.f)
-				}
-			}
-
-
-			function leftShoot(u,v) {
-				v--;
-				lastFunk = "left";
-				if (trsForShoot[u].children[v]) {
-
-					if (trsForShoot[u].children[v].obj.shooted == true) {
-						downShoot(firstCripperCoords.k,firstCripperCoords.f);
-					} else if (trsForShoot[u].children[v].obj.shooted == false && trsForShoot[u].children[v].obj.chip == true) {
-						ammountOfDecks++;
-						trsForShoot[u].children[v].click();
-						leftShoot(u,v);
-					} else if (trsForShoot[u].children[v].obj.shooted == false && trsForShoot[u].children[v].obj.chip == false) {
-						trsForShoot[u].children[v].click();
-					}
-
-				} else {
-					downShoot(firstCripperCoords.k,firstCripperCoords.f)
-				}
-			}
-
-			function downShoot(u,v) {
-				u++;
-				lastFunk = "down";
-				if (trsForShoot[u]) {
-
-					if (trsForShoot[u].children[v].obj.shooted == true) {
-						upShoot(firstCripperCoords.k,firstCripperCoords.f);
-					} else if (trsForShoot[u].children[v].obj.shooted == false && trsForShoot[u].children[v].obj.chip == true) {
-						ammountOfDecks++;
-						trsForShoot[u].children[v].click();
-						downShoot(u,v);
-					} else if (trsForShoot[u].children[v].obj.shooted == false && trsForShoot[u].children[v].obj.chip == false) {
-						trsForShoot[u].children[v].click();
-					}
-
-				} else {
-					upShoot(firstCripperCoords.k,firstCripperCoords.f)
-				}
-			}
-
-			function upShoot(u,v) {
-				u--;
-				lastFunk = "up";
-				if (trsForShoot[u]) {
-
-					if (trsForShoot[u].children[v].obj.shooted == true) {
-						firstCripperCoords.k = undefined;
-						firstCripperCoords.f = undefined;
-						shoot();
-					} else if (trsForShoot[u].children[v].obj.shooted == false && trsForShoot[u].children[v].obj.chip == true) {
-						ammountOfDecks++;
-						trsForShoot[u].children[v].click();
-						upShoot(u,v);
-					} else if (trsForShoot[u].children[v].obj.shooted == false && trsForShoot[u].children[v].obj.chip == false) {
-						trsForShoot[u].children[v].click();
-						firstCripperCoords.k = undefined;
-						firstCripperCoords.f = undefined;
-					}
-
-				} else {
-					firstCripperCoords.k = undefined;
-					firstCripperCoords.f = undefined;
-					shoot();
-				}
-			}
+			var lastFunk,k,f;
 
 
 
 			for (var x=0;x<10;x++) {
 
 				for (var y=0;y<10;y++) {
+
+
+					function rightSoot(u,v) {
+						v++;
+						lastFunk = "right";
+						if (trsForShoot[u].children[v]) {
+
+							if (trsForShoot[u].children[v].obj.shooted == true) {
+								leftShoot(firstCripperCoords.k,firstCripperCoords.f);
+							} else if (trsForShoot[u].children[v].obj.shooted == false && trsForShoot[u].children[v].obj.chip == true) {
+								ammountOfDecks++;
+								trsForShoot[u].children[v].click();
+								rightSoot(u,v);
+							} else if (trsForShoot[u].children[v].obj.shooted == false && trsForShoot[u].children[v].obj.chip == false) {
+								trsForShoot[u].children[v].click();
+							}
+
+						} else {
+							leftShoot(firstCripperCoords.k,firstCripperCoords.f)
+						}
+					}
+
+
+					function leftShoot(u,v) {
+						v--;
+						lastFunk = "left";
+						if (trsForShoot[u].children[v]) {
+
+							if (trsForShoot[u].children[v].obj.shooted == true) {
+								downShoot(firstCripperCoords.k,firstCripperCoords.f);
+							} else if (trsForShoot[u].children[v].obj.shooted == false && trsForShoot[u].children[v].obj.chip == true) {
+								ammountOfDecks++;
+								trsForShoot[u].children[v].click();
+								leftShoot(u,v);
+							} else if (trsForShoot[u].children[v].obj.shooted == false && trsForShoot[u].children[v].obj.chip == false) {
+								trsForShoot[u].children[v].click();
+							}
+
+						} else {
+							downShoot(firstCripperCoords.k,firstCripperCoords.f)
+						}
+					}
+
+					function downShoot(u,v) {
+						u++;
+						lastFunk = "down";
+						if (trsForShoot[u]) {
+
+							if (trsForShoot[u].children[v].obj.shooted == true) {
+								upShoot(firstCripperCoords.k,firstCripperCoords.f);
+							} else if (trsForShoot[u].children[v].obj.shooted == false && trsForShoot[u].children[v].obj.chip == true) {
+								ammountOfDecks++;
+								trsForShoot[u].children[v].click();
+								downShoot(u,v);
+							} else if (trsForShoot[u].children[v].obj.shooted == false && trsForShoot[u].children[v].obj.chip == false) {
+								trsForShoot[u].children[v].click();
+							}
+
+						} else {
+							upShoot(firstCripperCoords.k,firstCripperCoords.f)
+						}
+					}
+
+					function upShoot(u,v) {
+						u--;
+						lastFunk = "up";
+						if (trsForShoot[u]) {
+
+							if (trsForShoot[u].children[v].obj.shooted == true) {
+								firstCripperCoords.k = undefined;
+								firstCripperCoords.f = undefined;
+								shoot();
+							} else if (trsForShoot[u].children[v].obj.shooted == false && trsForShoot[u].children[v].obj.chip == true) {
+								ammountOfDecks++;
+								trsForShoot[u].children[v].click();
+								upShoot(u,v);
+							} else if (trsForShoot[u].children[v].obj.shooted == false && trsForShoot[u].children[v].obj.chip == false) {
+								trsForShoot[u].children[v].click();
+								firstCripperCoords.k = undefined;
+								firstCripperCoords.f = undefined;
+							}
+
+						} else {
+							firstCripperCoords.k = undefined;
+							firstCripperCoords.f = undefined;
+							shoot();
+						}
+					}
+
+
+
 
 					function checkAllTheDecks() {
 						if (ammountOfDecks==20) {
