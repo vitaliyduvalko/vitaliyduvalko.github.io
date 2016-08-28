@@ -184,7 +184,7 @@ function checkAllTheDecksOfComputer() {
 			if (trsForShoot[i].children[u].obj.shooted == true && trsForShoot[i].children[u].obj.chip == true) {
 				++ammountOfDecksOfComputer;
 				if (ammountOfDecksOfComputer==20) {
-					alert("You are win");
+					setTimeout("alert('You are win')",100);
 				}
 			}
 
